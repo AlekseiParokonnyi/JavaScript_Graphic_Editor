@@ -1,0 +1,83 @@
+<html>
+	<head>
+		<title>GraphicEditor</title>
+	</head>
+	
+	<body>
+		<canvas id = "canvas" width = "500" height = "400"></canvas>
+		
+		<p>
+		
+		<input id = "textCol" type = "text" value = "black"													 style="width:100px; height:30px"/>
+		<input id = "btnCol"  type = "button" value = "Color"     onclick = "changeColor(this, textCol);"    style="width:100px; height:30px"/>
+		
+		<p>
+		
+		<input id = "textTh"  type = "text" value = "10" 													 style="width:100px; height:30px"/>
+		<input id = "btnTh"   type = "button" value = "Thickness" onclick = "changeThickness(this, textTh);" style="width:100px; height:30px"/>
+	</body>
+	
+	<script type="text/javascript">
+		var canvas;
+		var context;
+		var isDrawing;
+		var color;
+		var thnss = 10;
+		
+		window.onload = function()
+		{
+			canvas = document.getElementById("canvas");
+			context = canvas.getContext('2d');
+			
+			context.strokeRect(10, 10, 480, 380);
+			context.strokeRect(15, 15, 470, 370);
+			
+			canvas.onmousedown = startDrawing;
+			canvas.onmouseup = stopDrawing;
+			canvas.onmousemove = draw;
+		}
+		
+		function startDrawing(e)
+		{
+			isDrawing = true;
+			context.beginPath();
+			context.moveTo(e.pageX - canvas.offsetLeft, e.pageY - canvas.offsetTop);
+		}
+		
+		function draw(e)
+		{
+			if(isDrawing == true)
+			{
+				var x = e.pageX - canvas.offsetLeft;
+				var y = e.pageY - canvas.offsetTop;
+				context.strokeStyle = color;
+				context.lineWidth = thnss;
+				context.lineTo(x, y);
+				context.stroke();
+			}
+		}
+		
+		function stopDrawing()
+		{
+			isDrawing = false;
+		}
+		
+		function changeColor(btn, text)
+		{
+			switch (text.value)
+			{
+				case "black":  color = "#000000"; break;
+				case "grey":   color = "#808080"; break;
+				case "red": color = "#FF0000"; break;
+				case "yellow": color = "#FFFF00"; break;
+				case "green": color = "#ADFF2F"; break;
+				case "blue": color = "#00BFFF"; break;
+			}
+		}
+		
+		function changeThickness(btn, text)
+		{
+			thnss = parseInt( text.value );
+		}		
+	</script>
+</html>
